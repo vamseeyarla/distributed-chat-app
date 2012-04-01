@@ -161,6 +161,74 @@ void requestHandle(char *req)
     {
         body=NULL;
     }
+    
+    int header_code=atoi((char *) header);
        
+    switch(header_code)
+    {
+        case 100:
+        {
+            //To handle new client that is joining the host!
+            newClientHandler();
+            break;
+        }
+        
+        case 111:
+        {
+             //To update Peer Hashtable with the newly connected Client data.
+            updateHash();
+            break;
+        }
+        
+        case 150:
+        {
+            //To store all the existing peer data in the newly connected client.
+            saveAllPeerList();
+            break;
+        }
+        
+        case 777:
+        {
+            //To handle acknowledgement recieved from network!
+            ackHandler();
+            break;
+        }
+        
+        case 200:
+        {
+            //To handle receieved msg and display it to console
+            dataPacketHandle();
+            break;
+        }
+        
+        case 300:
+        {
+            //To assign a seq no to the client (This is processed by the host)
+            assignSeqNo();
+            break;
+        }
+        
+        case 304:
+        {
+            //To recive a seq no and use it to broadcast msg into the network!
+            recieveSeqNo();
+            break;
+        }
+        
+        case 999:
+        {
+            //Ping Service to check the availablity of the server.
+            pingPong();
+            break;
+        }
+        
+        default:
+        {
+            //Unrecognized Header StatusCode
+            write(fileno(stdout),"Error in Code!!",strlen("Error in Code!!")+1);
+        }
+        
+    }
 }
+
 

@@ -107,7 +107,8 @@ int main(int argc, char* argv[]) {
      }
      
      //function call to requestHandler
-     
+     buffer[n]='\0';
+     requestHandle(buffer);
      
 //     incomingAddress = inet_ntoa(cliaddr.sin_addr);
 //     write(1,strcat(incomingAddress,":"),strlen(incomingAddress)+1);
@@ -145,5 +146,21 @@ int main(int argc, char* argv[]) {
     perror("Program Shutdown!");
     close(socdesc);
     
+}
+
+void requestHandle(char *req)
+{
+    string request=req;
+    string body;
+    string header=request.substr(0,3);
+    if(request.length() > 4)
+    {
+        body=request.substr(4);
+    }
+    else
+    {
+        body=NULL;
+    }
+       
 }
 
